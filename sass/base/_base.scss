@@ -1,0 +1,75 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  /* To convert 1rem = 10px */
+  /* font-size: 10px; */
+  /* 10px / 16px = 0.625 = 62.5%*/
+  /* Percentage of user's browser font-size setting */
+  font-size: 62.5%;
+
+  @include respond(tab-port) {
+    // 9px / 16px = 0.5625 = 56.25%
+    font-size: 56.25%;
+  }
+
+  @include respond(tab-port-sm) {
+    // 8px / 16px = 0.5 = 50%
+    font-size: 50%;
+  }
+
+  @include respond(phone) {
+    // 7px / 16px = 0.4375 = 43.75%
+    font-size: 43.75%;
+  }
+  // overflow-x: hidden;
+  /* Does NOT work on Safari */
+  /* scroll-behavior: smooth; */
+}
+
+// :root {
+//   // text-align: center;
+//   box-sizing: border-box;
+
+//   font-family: "Times New Roman", Times, serif;
+//   // font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+//   line-height: 1.5;
+//   font-weight: 400;
+//   color-scheme: light dark;
+//   color: rgba(255, 255, 255, 0.87);
+//   background-color: rgb(32, 30, 31);
+//   // background-color: #242424;
+//   font-synthesis: none;
+//   text-rendering: optimizeLegibility;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   -webkit-text-size-adjust: 100%;
+// }
+
+body {
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  // font-family: "Archivo", sans-serif;
+  line-height: 1;
+  font-weight: 300;
+  color: silver;
+  background-color: #000;
+  // background-color: $color-secondary;
+
+  /* Only works if there is nothing absolutely positioned in relation to body */
+  overflow-x: hidden;
+
+  // box-sizing: border-box;
+  // display: -webkit-box;
+  // display: -ms-flexbox;
+  // display: flex;
+  // place-items: center;
+  // min-width: 320px;
+  // min-height: 100vh;
+}

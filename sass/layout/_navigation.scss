@@ -1,0 +1,23 @@
+.nav-header {
+  max-width: 60rem;
+  margin: auto;
+  padding: 6rem;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+
+  & a {
+    text-decoration: none;
+    color: whitesmoke;
+  }
+
+  & a:hover,
+  & a.active {
+    color: wheat;
+  }
+}
