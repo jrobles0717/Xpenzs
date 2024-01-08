@@ -3,6 +3,7 @@ import "react-day-picker/dist/style.css";
 import { DayPicker, Matcher } from "react-day-picker";
 import React, { ChangeEvent, useEffect, useState } from "react";
 
+import Button from "../Button/Button";
 import { Form } from "react-router-dom";
 
 type Expense = {
@@ -21,7 +22,8 @@ const initialExpense: Expense = {
 
 const AddExpense = () => {
   const [expenses, setExpenses] = useState<Expense>(initialExpense);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [isDatePicker, setIsDatePicker] = useState<boolean>(false);
 
   const expenseChangeHandler = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
@@ -39,10 +41,20 @@ const AddExpense = () => {
   const dateChangeHandler = (e) => {
     console.log(e);
     setDate(e);
+    setIsDatePicker((prevState) => {
+      return !prevState;
+    });
+  };
+
+  const dateButtonHandler = () => {
+    setIsDatePicker((prevState) => {
+      return !prevState;
+    });
   };
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(expenses, date);
     console.log(e);
   };
 
@@ -80,7 +92,20 @@ const AddExpense = () => {
       </div>
       <div className="input-container input-container__date">
         <label htmlFor="date">Date</label>
-        <DayPicker mode="single" selected={date} onSelect={dateChangeHandler} />
+        <Button
+          type="button"
+          onClick={dateButtonHandler}
+          className="btn-select-date"
+        >
+          {date?.toLocaleDateString() || "Select Date"}
+        </Button>
+        {isDatePicker && (
+          <DayPicker
+            mode="single"
+            selected={date}
+            onSelect={dateChangeHandler}
+          />
+        )}
         {/* <input
           id="date"
           name="date"
@@ -109,6 +134,9 @@ const AddExpense = () => {
           // defaultValue={event ? event.description : ""}
         />
       </div>
+      <Button type="submit" className="btn-primary btn-submit">
+        Add Expense
+      </Button>
     </Form>
   );
 };
