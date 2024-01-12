@@ -1,11 +1,12 @@
 import "react-day-picker/dist/style.css";
 
 import { DayPicker, Matcher } from "react-day-picker";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { Expense, initialExpense } from "../../util/types";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
 import Button from "../Button/Button";
-import { Expense } from "../../util/types";
 import { Form } from "react-router-dom";
+import { FormContext } from "../../context/FormContext";
 
 // type Expense = {
 //   category: string | undefined;
@@ -14,30 +15,37 @@ import { Form } from "react-router-dom";
 //   description: string | undefined;
 // };
 
-const initialExpense: Expense = {
-  category: "",
-  amount: undefined,
-  date: undefined,
-  description: "",
-  id: (Math.random() * 100).toString(),
-};
+// const initialExpense: Expense = {
+//   category: "",
+//   amount: undefined,
+//   date: undefined,
+//   description: "",
+//   id: (Math.random() * 100).toString(),
+// };
 
-const AddExpense = () => {
+const AddExpense: React.FC = () => {
   const [expenses, setExpenses] = useState<Expense>(initialExpense);
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [isDatePicker, setIsDatePicker] = useState<boolean>(false);
+  const { form, updateForm } = useContext(FormContext);
+
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
 
   const expenseChangeHandler = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) => {
     console.log(e.target.value);
-    const { name, value } = e.target;
-    setExpenses((prevExpense) => {
-      return {
-        ...prevExpense,
-        [name]: value,
-      };
-    });
+    // console.log(e);
+    updateForm(e);
+    // const { name, value } = e.target;
+    // setExpenses((prevExpense) => {
+    //   return {
+    //     ...prevExpense,
+    //     [name]: value,
+    //   };
+    // });
   };
 
   const dateChangeHandler = (e) => {
@@ -75,7 +83,7 @@ const AddExpense = () => {
           className="input category p-sm"
           type="text"
           required
-          value={expenses.category}
+          value={form.category}
           onChange={expenseChangeHandler}
         />
       </div>
@@ -88,7 +96,7 @@ const AddExpense = () => {
           className="input amount p-sm"
           type="number"
           required
-          value={expenses.amount}
+          value={form.amount}
           onChange={expenseChangeHandler}
         />
       </div>
@@ -115,7 +123,7 @@ const AddExpense = () => {
           className="input date p-sm"
           type="text"
           required
-          value={expenses.date}
+          value={form.date}
           onChange={expenseChangeHandler}
         /> */}
       </div>
@@ -130,7 +138,7 @@ const AddExpense = () => {
           rows={1}
           required
           maxLength={200}
-          value={expenses.description}
+          value={form.description}
           onChange={expenseChangeHandler}
           autoFocus
           // defaultValue={event ? event.description : ""}
