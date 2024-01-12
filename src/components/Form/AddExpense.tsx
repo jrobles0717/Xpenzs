@@ -4,20 +4,22 @@ import { DayPicker, Matcher } from "react-day-picker";
 import React, { ChangeEvent, useEffect, useState } from "react";
 
 import Button from "../Button/Button";
+import { Expense } from "../../util/types";
 import { Form } from "react-router-dom";
 
-type Expense = {
-  category: string | undefined;
-  amount: number | undefined;
-  date: string | undefined;
-  description: string | undefined;
-};
+// type Expense = {
+//   category: string | undefined;
+//   amount: number | undefined;
+//   date: string | undefined;
+//   description: string | undefined;
+// };
 
 const initialExpense: Expense = {
   category: "",
   amount: undefined,
   date: undefined,
   description: "",
+  id: (Math.random() * 100).toString(),
 };
 
 const AddExpense = () => {
