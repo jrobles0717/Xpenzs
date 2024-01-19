@@ -1,4 +1,4 @@
-import { Expense, FormProviderProps, initialExpense } from "../util/types";
+import { Expense, ProviderProps, initialExpense } from "../util/types";
 import React, { ChangeEvent, useState } from "react";
 
 import { FormContext } from "./FormContext";
@@ -12,7 +12,7 @@ import { FormContext } from "./FormContext";
 //   return decoder.decode(arrayBuffer);
 // }
 
-export const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
+export const FormProvider: React.FC<ProviderProps> = ({ children }) => {
   const [form, setForm] = useState<Expense>(initialExpense);
 
   // const updateImage = (img: string) => {
@@ -36,6 +36,15 @@ export const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
   //   });
   // };
 
+  const updateDate = (value: Date) => {
+    setForm((prevForm) => {
+      return {
+        ...prevForm,
+        date: value,
+      };
+    });
+  };
+
   const updateForm = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement> | Date
   ) => {
@@ -57,7 +66,10 @@ export const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
     }
   };
 
-  const contextValue = React.useMemo(() => ({ form, updateForm }), [form]);
+  const contextValue = React.useMemo(
+    () => ({ form, updateForm, updateDate }),
+    [form]
+  );
 
   return (
     <FormContext.Provider value={contextValue}>{children}</FormContext.Provider>

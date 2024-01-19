@@ -5,29 +5,16 @@ import { Expense, initialExpense } from "../../util/types";
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
 import Button from "../Button/Button";
+import { ExpensesContext } from "../../context/ExpensesContext";
 import { Form } from "react-router-dom";
 import { FormContext } from "../../context/FormContext";
 
-// type Expense = {
-//   category: string | undefined;
-//   amount: number | undefined;
-//   date: string | undefined;
-//   description: string | undefined;
-// };
-
-// const initialExpense: Expense = {
-//   category: "",
-//   amount: undefined,
-//   date: undefined,
-//   description: "",
-//   id: (Math.random() * 100).toString(),
-// };
-
 const AddExpense: React.FC = () => {
-  const [expenses, setExpenses] = useState<Expense>(initialExpense);
+  // const [expenses, setExpenses] = useState<Expense>(initialExpense);
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [isDatePicker, setIsDatePicker] = useState<boolean>(false);
-  const { form, updateForm } = useContext(FormContext);
+  const { form, updateForm, updateDate } = useContext(FormContext);
+  const { expenses, updateExpenses } = useContext(ExpensesContext);
 
   useEffect(() => {
     console.log(form);
@@ -51,6 +38,7 @@ const AddExpense: React.FC = () => {
   const dateChangeHandler = (e) => {
     console.log(e);
     setDate(e);
+    updateDate(e);
     setIsDatePicker((prevState) => {
       return !prevState;
     });
@@ -64,13 +52,19 @@ const AddExpense: React.FC = () => {
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(expenses, date);
-    console.log(e);
+    updateExpenses(form);
+    console.log(form);
+    // console.log(expenses, date);
+    // console.log(e);
   };
 
   useEffect(() => {
     console.log(expenses);
   }, [expenses]);
+
+  // useEffect(() => {
+  //   console.log(expenses);
+  // }, [expenses]);
 
   return (
     <Form className="form" onSubmit={submitHandler}>

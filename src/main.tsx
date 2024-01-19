@@ -1,4 +1,5 @@
 import App from "./App.tsx";
+import ExpensesProvider from "./context/ExpensesProvider.tsx";
 import FormProvider from "./context/FormProvider.tsx";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -6,7 +7,9 @@ import ReactDOM from "react-dom/client";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <FormProvider>
-      <App />
+      <ExpensesProvider>
+        <App />
+      </ExpensesProvider>
     </FormProvider>
   </React.StrictMode>
 );
