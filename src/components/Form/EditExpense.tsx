@@ -1,24 +1,24 @@
-import "react-day-picker/dist/style.css";
-
-import { DayPicker, Matcher } from "react-day-picker";
 import { Expense, initialExpense } from "../../util/types";
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
 import Button from "../Button/Button";
+import { DayPicker } from "react-day-picker";
 import { ExpensesContext } from "../../context/ExpensesContext";
 import { Form } from "react-router-dom";
 import { FormContext } from "../../context/FormContext";
 
-const AddExpense: React.FC = () => {
-  const [expense, setExpense] = useState<Expense>(initialExpense);
+const EditExpense: React.FC<{ oldExpense: Expense; onClose: () => void }> = ({
+  oldExpense,
+  onClose,
+}) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [isDatePicker, setIsDatePicker] = useState<boolean>(false);
-  const { form, updateForm, updateDate } = useContext(FormContext);
-  const { expenses, addExpense } = useContext(ExpensesContext);
+  const { expenses, updateExpense } = useContext(ExpensesContext);
+  const [expense, setExpense] = useState<Expense>(oldExpense);
 
   useEffect(() => {
-    console.log(form);
-  }, [form]);
+    setDate(expense.date);
+  }, []);
 
   const expenseChangeHandler = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
@@ -68,24 +68,17 @@ const AddExpense: React.FC = () => {
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addExpense(expense);
+    updateExpense(expense);
+    onClose();
     // console.log(form);
     // Reset form
-    setExpense({
-      ...initialExpense,
-      id: (Math.random() * 10000).toFixed(0).toString(),
-    });
-    setDate(undefined);
-    setIsDatePicker(false);
+    // setExpense({
+    //   ...initialExpense,
+    //   id: (Math.random() * 10000).toFixed(0).toString(),
+    // });
+    // setDate(undefined);
+    // setIsDatePicker(false);
   };
-
-  useEffect(() => {
-    console.log(expenses);
-  }, [expenses]);
-
-  useEffect(() => {
-    console.log(expense);
-  }, [expense]);
 
   return (
     <Form className="form" onSubmit={submitHandler}>
@@ -132,15 +125,15 @@ const AddExpense: React.FC = () => {
           />
         )}
         {/* <input
-          id="date"
-          name="date"
-          placeholder="03/23/2023"
-          className="input date p-sm"
-          type="text"
-          required
-          value={expense.date}
-          onChange={expenseChangeHandler}
-        /> */}
+      id="date"
+      name="date"
+      placeholder="03/23/2023"
+      className="input date p-sm"
+      type="text"
+      required
+      value={expense.date}
+      onChange={expenseChangeHandler}
+    /> */}
       </div>
       <div className="input-container input-container__description">
         <label htmlFor="description">Description</label>
@@ -160,10 +153,10 @@ const AddExpense: React.FC = () => {
         />
       </div>
       <Button type="submit" className="btn-primary btn-submit">
-        Add Expense
+        Edit Expense
       </Button>
     </Form>
   );
 };
 
-export default AddExpense;
+export default EditExpense;

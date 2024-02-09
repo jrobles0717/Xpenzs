@@ -4,5 +4,7 @@ import React from "react";
 
 export const ExpensesContext = React.createContext<ExpensesContextType>({
   expenses: [initialExpense],
-  updateExpenses: () => {},
+  addExpense: () => {},
+  deleteExpense: () => {},
+  updateExpense: () => {},
 });
